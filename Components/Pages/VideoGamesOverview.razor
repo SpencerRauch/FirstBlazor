@@ -1,0 +1,38 @@
+@page "/games"
+@inject IVideoGameService VideoGameService
+<PageTitle>All Games</PageTitle>
+<h3>All Games</h3>
+@if(VideoGames.Count == 0)
+{
+    <p>Loading........</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Publisher</th>
+                <th>Release Year</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (VideoGame game in VideoGames)
+            {
+                <tr>
+                    <td>@game.Title</td>
+                    <td>@game.Publisher</td>
+                    <td>@game.ReleaseYear</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+    List<VideoGame> VideoGames = new();
+    
+    protected override async Task OnInitializedAsync()
+    {
+        VideoGames = await VideoGameService.GetAllGamesAsync();
+    }
+}
